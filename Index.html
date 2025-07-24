@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test form 1</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="auth-container">
+        <div class="form-container" id="formContainer">
+            <h2 class="form-title" id="formTitle">test.test.test</h2>
+            
+            <form id="authForm">
+                <div class="form-group extra-field" id="nameField">
+                    <input type="text" class="form-input" placeholder="Full Name" id="fullName">
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Username" id="username" required>
+                </div>
+                
+                <div class="form-group extra-field" id="emailField">
+                    <input type="email" class="form-input" placeholder="Email Address" id="email">
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="Password" id="password" required>
+                </div>
+                
+                <div class="form-group extra-field" id="confirmPasswordField">
+                    <input type="password" class="form-input" placeholder="Confirm Password" id="confirmPassword">
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">Login Now</button>
+            </form>
+            
+            <div class="auth-switch">
+                <span id="switchText">Don't have an account?</span>
+                <a href="#" class="switch-link" id="switchLink">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isSignUp = false;
+        const formContainer = document.getElementById('formContainer');
+        const formTitle = document.getElementById('formTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const switchText = document.getElementById('switchText');
+        const switchLink = document.getElementById('switchLink');
+        const nameField = document.getElementById('nameField');
+        const emailField = document.getElementById('emailField');
+        const confirmPasswordField = document.getElementById('confirmPasswordField');
+        const authForm = document.getElementById('authForm');
+
+        function toggleForm() {
+            formContainer.classList.add('fade-out');
+            
+            setTimeout(() => {
+                isSignUp = !isSignUp;
+                
+                if (isSignUp) {
+                    // derm3 switch to sign up
+                    formTitle.textContent = 'Create Account';
+                    submitBtn.textContent = 'Sign Up';
+                    switchText.textContent = 'Already have an account?';
+                    switchLink.textContent = 'Sign In';
+                    
+                    // phanj extra field
+                    nameField.classList.add('show');
+                    emailField.classList.add('show');
+                    confirmPasswordField.classList.add('show');
+                } else {
+                    // derm3 switch to log in
+                    formTitle.textContent = 'Welcome Back';
+                    submitBtn.textContent = 'Sign In';
+                    switchText.textContent = "Don't have an account?";
+                    switchLink.textContent = 'Sign Up';
+                    
+                    // Hide extra fields
+                    nameField.classList.remove('show');
+                    emailField.classList.remove('show');
+                    confirmPasswordField.classList.remove('show');
+                }
+                
+                formContainer.classList.remove('fade-out');
+                formContainer.classList.add('fade-in');
+            }, 250);
+        }
+
+        switchLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForm();
+        });
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Add a subtle success animation
+            submitBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+            submitBtn.textContent = isSignUp ? 'Account Created!' : 'Welcome!';
+            
+            setTimeout(() => {
+                submitBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4)';
+                submitBtn.textContent = isSignUp ? 'Sign Up' : 'Sign In';
+            }, 2000);
+        });
+
+        // Add floating particle effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = 'rgba(255, 255, 255, 0.3)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = '100%';
+            particle.style.animation = 'float 8s linear infinite';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Add CSS for floating animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                to {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            .bubble {
+                position: absolute;
+                border-radius: 50%;
+                pointer-events: none;
+                animation: bubbleFloat linear infinite;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(5px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            @keyframes bubbleFloat {
+                0% {
+                    transform: translateY(100vh) scale(0);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100px) scale(1);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create particles periodically
+        setInterval(createParticle, 3000);
+        
+        // Create bubble effect
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            const size = Math.random() * 80 + 20; // 20-100px
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDuration = (Math.random() * 6 + 4) + 's'; // 4-10s
+            bubble.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.remove();
+            }, 12000);
+        }
+        
+        // Create bubbles
+        setInterval(createBubble, 800);
+        
+        // Create initial bubbles
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createBubble, i * 200);
+        }
+    </script>
+</body>
+</html>
